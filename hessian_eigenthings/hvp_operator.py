@@ -41,7 +41,7 @@ class HVPOperator(Operator):
         self.grad_vec = torch.zeros(size)
         self.model = model
         if use_gpu:
-            self.model = self.model.cuda()
+            self.model = self.model.to('mps')
         self.dataloader = dataloader
         # Make a copy since we will go over it a bunch
         self.dataloader_iter = iter(dataloader)
@@ -127,8 +127,8 @@ class HVPOperator(Operator):
         target_microbatches = all_targets.chunk(num_chunks)
         for input, target in zip(input_microbatches, target_microbatches):
             if self.use_gpu:
-                input = input.cuda()
-                target = target.cuda()
+                input = input.to('mps')
+                target = target.to('mps')
 
             output = self.model(input)
             loss = self.criterion(output, target)
