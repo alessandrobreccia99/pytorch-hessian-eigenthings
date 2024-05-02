@@ -99,7 +99,7 @@ def power_iteration(
     vec = utils.maybe_fp16(vec, fp16)
 
     if use_gpu:
-        vec = vec.cuda()
+        vec = vec.to('mps')
 
     prev_lambda = 0.0
     prev_vec = utils.maybe_fp16(torch.randn_like(vec), fp16)
